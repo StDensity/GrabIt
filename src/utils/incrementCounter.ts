@@ -1,9 +1,11 @@
-import { firebaseConfig } from "@/config";
 import axios from "axios";
 
-const databaseURL = firebaseConfig.databaseURL;
+const databaseURL = process.env.EXPO_PUBLIC_databaseURL;
 
 export async function incrementCounter(): Promise<void> {
+   if (!databaseURL) {
+      return;
+   }
    try {
       const response = await axios.get<number>(databaseURL);
       const currentCount = response.data;

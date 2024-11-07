@@ -1,4 +1,3 @@
-import UrlPattern from "url-pattern";
 
 // Define the types for the supported services
 interface Service {

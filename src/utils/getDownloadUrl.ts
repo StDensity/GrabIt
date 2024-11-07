@@ -6,8 +6,9 @@ import {
    DownloadVideoQualityValue,
    getDownloadUrlResponse,
 } from "../types/types";
-import { getUrlConfig } from "@/config";
 import { incrementCounter } from "./incrementCounter";
+
+// import Config from "react-native-config";
 
 // export type getDownloadUrlProps = {
 //    url: string;
@@ -26,9 +27,10 @@ export async function getDownloadUrl(
    const downloadMode: DownloadModeOption = "auto"; // Choose the desired download mode
    const quality: DownloadVideoQualityValue = "1080"; // Choose from the defined qualities
    const codec: DownloadVideoCodec = "h264"; // Choose from the supported codecs
+
    const options = {
       method: "POST",
-      url: getUrlConfig.getUrl, // Replace with your actual API endpoint
+      url: process.env.EXPO_PUBLIC_getUrl,
       headers: {
          Accept: "application/json",
          "Content-Type": "application/json",
