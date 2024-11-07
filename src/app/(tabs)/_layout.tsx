@@ -9,26 +9,28 @@ import { getUpdateInfo } from "@/src/utils/updateChecker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DevMessageSheet from "@/src/components/BottomSheets/DevMessageSheet";
 import Constants from "expo-constants";
-
+// import * as Application from 'expo-application';
 
 const TabsLayout = () => {
    const [updateCheckerInfo, setUpdateCheckerInfo] =
       useState<updateCheckResponse | null>();
 
-   const [currentVersion, setCurrentVersion] = useState("");
+   const [currentVersionInStorage, setCurrentVersionInStorage] = useState("");
    const [devMessageId, setDevMessageId] = useState("");
-
+   const [currentAppVersion, setCurrentAppVersion] = useState<
+      string | undefined
+   >();
    useEffect(() => {
-      const appVersion = Constants.systemVersion;
-      console.log("appverso", appVersion)
-         
+      const appVersion = Constants.expoConfig?.version;
+      setCurrentAppVersion(appVersion);
+
       const getData = async () => {
          const data = await getUpdateInfo();
          setUpdateCheckerInfo(data);
          const version = await AsyncStorage.getItem("CurrentVersion");
          const messageId = await AsyncStorage.getItem("DevMessageId");
          if (version) {
-            setCurrentVersion(version);
+            setCurrentVersionInStorage(version);
          }
          if (messageId) {
             setDevMessageId(messageId);
@@ -67,7 +69,8 @@ const TabsLayout = () => {
          </Tabs>
 
          {updateCheckerInfo &&
-            updateCheckerInfo?.version !== currentVersion && (
+            updateCheckerInfo?.version !== currentAppVersion &&
+            updateCheckerInfo?.version !== currentVersionInStorage && (
                <UpdateSheet updateDetails={updateCheckerInfo} />
             )}
          {updateCheckerInfo &&
