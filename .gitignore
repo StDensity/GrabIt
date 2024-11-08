@@ -3,7 +3,7 @@ config.ts
 .env.development
 .env.production
 eas.json
-    
+apk
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
 # dependencies
